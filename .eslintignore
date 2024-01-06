@@ -1,0 +1,11 @@
+node_modules/
+test/
+dist/
+docker/
+src/**/*.spec.ts
+.git/
+.husky/
+.github/
+.gitignore
+.npmrc
+.nvmrc

@@ -1,0 +1,32 @@
+ARG NODE_VERSION=20.14.0
+
+FROM --platform=linux/amd64 node:${NODE_VERSION} as build
+
+USER node
+
+WORKDIR /usr/src/app
+
+COPY --chown=node:node ["package*.json", "."]
+
+RUN npm i
+
+ENV NODE_ENV=${NODE_ENV}
+
+COPY --chown=node:node . .
+
+RUN npm run build && npm cache clean --force && npm prune --production
+
+FROM --platform=linux/amd64 node:${NODE_VERSION}-alpine as production
+
+ENV NODE_ENV=${NODE_ENV}
+
+USER node
+
+EXPOSE 8080
+
+WORKDIR /usr/src/app
+
+COPY --from=build /usr/src/app/node_modules node_modules/
+COPY --from=build /usr/src/app/dist dist/
+
+CMD ["node", "dist/main.js"]

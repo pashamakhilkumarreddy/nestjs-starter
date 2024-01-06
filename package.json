@@ -1,0 +1,124 @@
+{
+  "name": "nestjs-starter",
+  "repository": "https://github.com/pashamakhilkumarreddy/nestjs-starter",
+  "version": "1.0.0",
+  "description": "A starter template for building scalable and maintainable server-side applications using NestJS.",
+  "author": "Pasham Akhil Kumar Reddy <pashamakhilkumarreddy@gmail.com> (https://flowcv.me/akhilp)",
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "nest build",
+    "format": "prettier --config ./.prettierrc --no-editorconfig '{src,test}/**/*.{js,ts,md,json}' --check",
+    "format:fix": "prettier --config ./.prettierrc --no-editorconfig --ignore-unknown '{src,test}/**/*.{js,ts,md,json}' --write",
+    "lint": "eslint '{src,test}/**/*.{js,ts,json}' --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint '{src,test}/**/*.{js,ts,json}' --fix --report-unused-disable-directives --max-warnings 0",
+    "start": "nest start",
+    "start:dev": "nest start --watch",
+    "start:debug": "nest start --debug --watch",
+    "start:prod": "node dist/main",
+    "docker:prod:build": "echo '=> Running app in Production mode...' && export NODE_ENV=production && export ApiImageTag=$(node -e 'console.info(`${process.env.npm_package_name}:${process.env.npm_package_version}`);') && docker compose -f docker-compose.prod.yml up --build",
+    "docker:dev:build": "echo '=> Running app in development mode...' && export NODE_ENV=production && export ApiImageTag=$(node -e 'console.info(`${process.env.npm_package_name}:${process.env.npm_package_version}`);') && docker compose -f docker-compose.yml up --build",
+    "docker:dev:start": "echo '=> Running app in development mode...' && export ApiImageTag=$(node -e 'console.info(`${process.env.npm_package_name}:${process.env.npm_package_version}`);') && docker compose --env-file .env -f docker-compose.yml up --build --abort-on-container-exit",
+    "docker:dev:stop": "echo '=> Stopping docker services' && docker compose --file docker-compose.yml stop",
+    "docker:dev:clean": "echo '=> Deleting docker services' && docker compose --file docker-compose.yml down --volumes --rmi all",
+    "db:make-seed": "npx sequelize-cli seed:generate --name init",
+    "db:seed": "npx sequelize-cli db:seed:all",
+    "db:seed:down": "npx sequelize-cli db:seed:undo:all",
+    "db:generate": "npx sequelize-cli migration:generate --name=nestjs-starter-migrations",
+    "db:migrate": "node --env-file=.env -e \"require('child_process').execSync('npx sequelize-cli db:migrate', { stdio: 'inherit' });\"",
+    "db:migrate:undo": "node --env-file=.env -e \"require('child_process').execSync('npx sequelize-cli db:migrate:undo', { stdio: 'inherit' });\"",
+    "test": "jest --config jest.config.js",
+    "test:watch": "jest --watch --config jest.config.js",
+    "test:coverage": "jest --coverage --config jest.config.js",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "@nestjs/common": "^10.0.0",
+    "@nestjs/config": "^3.1.1",
+    "@nestjs/core": "^10.0.0",
+    "@nestjs/jwt": "^10.2.0",
+    "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/sequelize": "^10.0.0",
+    "@nestjs/swagger": "^7.1.16",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.0",
+    "express": "^4.19.2",
+    "ioredis": "^5.3.2",
+    "lodash": "^4.17.21",
+    "nestjs-pino": "^3.5.0",
+    "pg": "^8.11.3",
+    "pg-hstore": "^2.3.4",
+    "pg-mem": "^2.8.1",
+    "pino-http": "^8.6.0",
+    "pino-pretty": "^10.3.0",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.8.1",
+    "sequelize": "^6.35.1",
+    "sequelize-typescript": "^2.1.6"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^18.4.3",
+    "@commitlint/config-conventional": "^18.4.3",
+    "@commitlint/lint": "^18.4.3",
+    "@nestjs/cli": "^10.0.0",
+    "@nestjs/schematics": "^10.0.0",
+    "@nestjs/testing": "^10.0.0",
+    "@types/cache-manager-ioredis": "^2.0.6",
+    "@types/express": "^4.17.17",
+    "@types/jest": "^29.5.2",
+    "@types/node": "^20.3.1",
+    "@types/sequelize": "^4.28.19",
+    "@types/supertest": "^2.0.12",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.42.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-no-comments": "^1.1.10",
+    "eslint-plugin-prettier": "^5.0.1",
+    "husky": "^8.0.0",
+    "jest": "^29.5.0",
+    "prettier": "^3.0.0",
+    "sequelize-cli": "^6.6.2",
+    "source-map-support": "^0.5.21",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.1.2",
+    "ts-loader": "^9.4.3",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.1.3"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.!(*spec).{ts,js,json}": [
+      "npm run lint:fix",
+      "prettier --write --no-editorconfig"
+    ],
+    "*.md": [
+      "prettier --write --no-editorconfig"
+    ]
+  }
+}

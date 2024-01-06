@@ -1,0 +1,19 @@
+ARG NODE_VERSION=20.14.0
+
+FROM --platform=linux/amd64 node:${NODE_VERSION}
+
+EXPOSE 5000
+EXPOSE 9229
+
+USER node
+
+WORKDIR /usr/src/app
+
+COPY --chown=node:node ["package*.json", "."]
+
+RUN npm i
+
+COPY --chown=node:node . .
+
+# CMD ["nest" "start" "--debug" "0.0.0.0:9229" "--watch"]
+CMD ["npm", "run", "start:debug"]

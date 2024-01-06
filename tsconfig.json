@@ -1,0 +1,45 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "declarationMap": true,
+    "downlevelIteration": true,
+    "ignoreDeprecations": "5.0",
+    "isolatedModules": true,
+    "moduleResolution": "node",
+    // "noImplicitUseStrict": true,
+    "strict": true,
+    "preserveConstEnums": true,
+    "resolveJsonModule": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "noUnusedParameters": true,
+    "target": "ES2021",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": [
+    "src/**/*",
+    "database",
+    "config"
+  ],
+  "exclude": [
+    "node_modules",
+    "test",
+    "dist",
+    "src/**/*.spec.ts"
+  ]
+}

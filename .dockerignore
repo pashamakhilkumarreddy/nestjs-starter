@@ -1,0 +1,17 @@
+node_modules/
+test/
+dist/
+.git/
+.husky/
+.vscode/
+.github/
+.commitlintrc.json
+.editorconfig
+.env.*
+.eslintrc.js
+.eslintignore
+.gitignore
+.npmrc
+.nvmrc
+.prettier*
+*.md

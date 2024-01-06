@@ -1,0 +1,104 @@
+version: '3.9'
+
+services:
+  nestjs-api-dev:
+    container_name: nestjs-api-dev
+    env_file:
+      - .env
+    networks:
+      - nestjs-network-dev
+    # network_mode: bridge
+    depends_on:
+      - nestjs-postgres-dev
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./src:/usr/src/app/src
+    ports:
+      - 5000:5000
+      - 9229:9229
+    environment:
+      - NODE_ENV=production
+      - PORT=8080
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - KEYCLOAK_ADMIN_EMAIL=${KEYCLOAK_ADMIN_EMAIL}
+      - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
+      - KEYCLOAK_BASE_URL=${KEYCLOAK_BASE_URL}
+      - KEYCLOAK_REALM_NAME=${KEYCLOAK_REALM_NAME}
+    restart: on-failure
+
+  nestjs-postgres-dev:
+    container_name: nestjs-postgres-dev
+    image: postgres:16.1
+    networks:
+      - nestjs-network-dev
+    # network_mode: bridge
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
+      - PG_DATA=/var/lib/postgresql/data
+    restart: on-failure
+
+  # keycloak:
+  #   container_name: nestjs-keycloak-dev
+  #   image: quay.io/keycloak/keycloak:23.0.1
+  #   networks:
+  #     - nestjs-network-dev
+  #   # network_mode: bridge
+  #   depends_on:
+  #     - nestjs-postgres-dev
+  #   environment:
+  #     - KEYCLOAK_ADMIN=${KEYCLOAK_ADMIN}
+  #     - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
+  #     - KC_DB=${KC_DB}
+  #     - KC_DB_USERNAME=${KC_DB_USERNAME}
+  #     - KC_DB_PASSWORD=${KC_DB_PASSWORD}
+  #     # - KC_HOSTNAME=${KC_HOSTNAME}
+  #     - KC_DB_URL=${KC_DB_URL}
+  #     - KEYCLOAK_LOGLEVEL=${KEYCLOAK_LOGLEVEL}
+  #   ports:
+  #     - 9000:8080
+  #   command:
+  #     - start-dev
+
+  nestjs-redis-dev:
+    container_name: nestjs-redis-dev
+    image: redis:7.4
+    networks: 
+      - nestjs-network-dev
+    # network_mode: bridge
+    ports:
+      - 6379:6379
+    restart: on-failure
+
+  # nestjs-cloudbeaver-dev:
+  #   container_name: nestjs-cloudbeaver-dev
+  #   image: dbeaver/cloudbeaver
+  #   networks:
+  #     - nestjs-network-dev
+  #   # network_mode: bridge
+  #   volumes:
+  #     - cloudbeaver:/opt/cloudbeaver/workspace
+  #   ports:
+  #     - 8978:8978
+  #   restart: unless-stopped
+
+networks:
+  nestjs-network-dev: {}
+volumes:
+  pgdata:
+    driver: local
+  # cloudbeaver:
+  #   driver: local
