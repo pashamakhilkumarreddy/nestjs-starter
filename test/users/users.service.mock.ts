@@ -62,7 +62,7 @@ import {
     });
   
     //@ts-ignore
-    deleteUser = jest.fn(async (id: string) => {
+    deleteUser = jest.fn(async (req: any, id: string) => {
       return {
         status: 'success',
         data: {

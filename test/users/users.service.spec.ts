@@ -6,10 +6,10 @@ import {
   AddUserDTO,
   UpdateUserDTO,
   UpdateUserPasswordDTO,
-  PaginatedUserDto
+  PaginatedUserDto,
+  sortTypes
 } from '../../src/modules/users/dtos/users.dto';
-import { BasePaginationDto } from '../../src/common/dtos';
-import { RoleTypes, SortByTypes } from '../../src/common/constants';
+import { KeyCloakUserObject, RoleTypes, SortByTypes } from '../../src/common/constants';
 
 describe('UsersService', () => {
   let usersServiceMock: UsersServiceMock;
@@ -67,7 +67,18 @@ describe('UsersService', () => {
     it('should update an existing user', async () => {
       const mockRequest = { body: { modifiedBy: 'johnDoe' } };
       const mockParams: UserIdParam = { userId: 'sasuke890' };
-      const mockUser = { isAdmin: true, userId: 'hinata2672' };
+      const mockUser: KeyCloakUserObject = {
+        sub: '9876543210',
+        email_verified: false,
+        name: 'John Doe',
+        preferred_username: 'john_doe',
+        given_name: 'John',
+        family_name: 'Doe',
+        email: 'john.doe@example.com',
+        userId: 'sasuke890',
+        roles: ['admin'],
+        isAdmin: true
+      };
 
       const mockUserDTO: UpdateUserDTO = {
         image: '',
@@ -111,14 +122,14 @@ describe('UsersService', () => {
 
   describe('findAll', () => {
     it('should find all users based on query parameters', async () => {
-      const mockQuery: PaginatedUserDto | BasePaginationDto = {
+      const mockQuery: PaginatedUserDto = {
         page: 1,
         limit: 10,
         sortBy: [SortByTypes.ASC],
-        sortTypes: ['name'],
-        name: '["naruto", "hinata"]',
-        role: '["super_admin", "admin"]',
-        title: '["cfo"]'
+        sortTypes: [sortTypes.name],
+        name: ["naruto", "hinata"],
+        role: [RoleTypes.SUPER_ADMIN, RoleTypes.ADMIN],
+        title: ["cfo"]
       };
 
       const result = await usersService.findAll(mockQuery);
@@ -151,7 +162,18 @@ describe('UsersService', () => {
         password: 'jj9IaEwb4HGxwcHQ'
       };
 
-      const currUser = { userId: '1' };
+      const currUser: KeyCloakUserObject = {
+        sub: '9876543210',
+        email_verified: false,
+        name: 'Hinata Uzumaki',
+        preferred_username: 'hinata',
+        given_name: 'Hinata',
+        family_name: 'Uzumaki',
+        email: 'hinata@uzumaki.com',
+        userId: '1',
+        roles: ['admin'],
+        isAdmin: true
+      };
 
       const result = await usersService.updatePassword(
         mockParams,
