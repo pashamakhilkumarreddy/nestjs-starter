@@ -24,7 +24,7 @@ When creating your Pull Request (PR), follow these steps:
 ### Merging Your PR
 
 -   When merging, copy and paste your PR title as your commit title and the PR description as your commit body. Then merge your change!
--   All merges to `main` are automatically pushed to staging and production. Ensure your work appears as expected in these environments post-deployment.
+-   All merges to `main` are automatically pushed to production. Ensure your work appears as expected in these environments post-deployment.
 
 ## Code Review Process Guidelines
 

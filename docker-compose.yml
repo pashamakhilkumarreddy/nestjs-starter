@@ -37,6 +37,8 @@ services:
   nestjs-postgres-dev:
     container_name: nestjs-postgres-dev
     image: postgres:16.1
+    env_file:
+      - .env
     networks:
       - nestjs-network-dev
     # network_mode: bridge
@@ -54,6 +56,8 @@ services:
   # keycloak:
   #   container_name: nestjs-keycloak-dev
   #   image: quay.io/keycloak/keycloak:23.0.1
+  #   env_file:
+  #     - .env
   #   networks:
   #     - nestjs-network-dev
   #   # network_mode: bridge
@@ -76,6 +80,8 @@ services:
   nestjs-redis-dev:
     container_name: nestjs-redis-dev
     image: redis:7.4
+    env_file:
+      - .env
     networks: 
       - nestjs-network-dev
     # network_mode: bridge
